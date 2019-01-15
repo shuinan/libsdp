@@ -43,6 +43,13 @@ namespace sdp {
 			tracks.clear();
 		}
 
+		bool GetTrack(const string& trackId, TrackInfo& t) {
+			map<string, TrackInfo>::iterator it = tracks.find(trackId);
+			if (it == tracks.end())
+				return false;
+			t = it->second;
+			return true;
+		}
 		TrackInfo* GetTrack(const string& trackId) {
 			map<string, TrackInfo>::iterator it = tracks.find(trackId);
 			return it == tracks.end() ? nullptr : &it->second;

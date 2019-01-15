@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include <nlohmann/json.hpp>
 
-using json = nlohmann::json;
+//#include "../json/include/nlohmann/json.hpp"
+#include "nlohmann/json.hpp"
 
 using namespace std;
 
@@ -22,10 +22,10 @@ namespace sdp {
 		}
 	};
 
-	static void to_json(json& j, const SimulcastStreamInfo& d) {
-		j = json{ {"scid", d.id},	{"paused", d.paused} };
+	static void to_json(nlohmann::json& j, const SimulcastStreamInfo& d) {
+		j = nlohmann::json{ {"scid", d.id},	{"paused", d.paused} };
 	}
-	static void from_json(const json& j, SimulcastStreamInfo& d) {		
+	static void from_json(const nlohmann::json& j, SimulcastStreamInfo& d) {
 		d.id = j.at("scid").get<string>();
 		d.paused = j.at("paused").get<bool>();
 	}

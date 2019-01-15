@@ -47,6 +47,7 @@ namespace sdp {
 		}
 
 		MediaInfo* GetMedia(const string& mtype);
+		bool GetMedia(const string& mtype, MediaInfo& m);
 
 		MediaInfo * GetAudioMedia();
 

@@ -126,6 +126,15 @@ namespace sdp {
 		CodecInfo* CodecForType(int pt) {
 			return const_cast<CodecInfo*>(GetCodecForType(pt));
 		}		
+		bool GetCodecForType(int pt, CodecInfo& codec) const {
+			for (auto& codecInfo : codecs) {
+				if (codecInfo.second.ctype == pt) {
+					codec = codecInfo.second;
+					return true;
+				}
+			}
+			return false;
+		}
 		const CodecInfo* GetCodecForType(int pt) const {
 			for (auto& codecInfo : codecs) {
 				if (codecInfo.second.ctype == pt) {

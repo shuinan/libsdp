@@ -1,10 +1,7 @@
 #pragma once
 
-#include "../json/include/nlohmann/json.hpp"
-
-//using json = nlohmann::json;
-using namespace nlohmann;
-	  
+//#include "../json/include/nlohmann/json.hpp"
+#include "nlohmann/json.hpp"
 
 #define mem_def_(op, type, mem)				mem_def_##op(type, mem, #mem)
 #define mem_def(op, type, mem, name)		mem_def_##op(type, mem, name)
@@ -50,10 +47,10 @@ struct struName {	\
 serialize_def(struName)
 
 #define serialize_def(struName)\
-static void to_json(json& j, const struName& d) {\
+static void to_json(nlohmann::json& j, const struName& d) {\
 	mem_def_##struName(to);\
 }\
-static void from_json(const json& j, struName& d) {\
+static void from_json(const nlohmann::json& j, struName& d) {\
 	mem_def_##struName(from);\
 }
 

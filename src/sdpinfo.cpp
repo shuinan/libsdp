@@ -7,26 +7,18 @@
 #include <time.h>
 #include <iostream>
 
-#include "streaminfo.h"
-#include "mediainfo.h"
-#include "candidate.h"
-#include "sourceinfo.h"
-#include "iceinfo.h"
-#include "dtlsinfo.h"
-
-#include <nlohmann/json.hpp>
 
 #ifdef USE_JSON_TRANSFORM
-#include "sdpstruct.h"
+#include "../include/sdpstruct.h"
 #endif
 
 #include "../libsdptransform/include/sdptransform.hpp"
 
 using json = nlohmann::json;
 
-#include "stringUtil.h"
+#include "../include/stringUtil.h"
 
-#include "sdpinfo.h"
+#include "../include/sdpinfo.h"
 
 using namespace std;
 
@@ -97,6 +89,15 @@ namespace sdp {
 			}
 		}
 		return nullptr;
+	}
+	bool SDPInfo::GetMedia(const string& mtype, MediaInfo& m) {
+		for (auto& media : this->medias_) {
+			if (stringUtil::tolower(media.GetType()) == stringUtil::tolower(mtype)) {
+				m = media;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	MediaInfo * SDPInfo::GetAudioMedia() {

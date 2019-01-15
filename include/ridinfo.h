@@ -14,6 +14,7 @@
 
 #include "../libsdptransform/include/sdptransform.hpp"
 
+using json = nlohmann::json;
 using namespace std;
 
 namespace sdp {
