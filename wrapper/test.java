@@ -123,12 +123,14 @@ static void Test_Parse() {
 	SDPInfo offer;
 	assert(offer.Parse(sdpstr));
 
-	CandidateInfo candidate = offer.GetCandidates().get_impl(0);
+	SWIGTYPE_p_CandidateInfo candidate = offer.GetCandidates().get(0);
 	assert(candidate.getIp() == "35.188.215.104");
 
-	SWIGTYPE_p_CodecInfo codecInfo = offer.GetMedia("audio").GetCodecForType(111);
-	assert(codecInfo.GetCodec() == "opus");
+//	SWIGTYPE_p_
+	CodecInfo codecInfo = offer.GetMedia("audio").GetCodecForType(111);
+	assert(codecInfo.getCodec() == "opus");
 	
+	//MediaInfos ms = offer.GetMedias();
 	assert(offer.GetMedias().size() == 2);
 
 	DTLSInfo dtls = offer.GetDTLS();
@@ -136,7 +138,7 @@ static void Test_Parse() {
 
 	StreamInfo stream = offer.GetStream("xIKmAwWv4ft4ULxNJGhkHzvPaCkc8EKo4SGj");
 	SWIGTYPE_p_TrackInfo track = stream.GetTrack("7ea47500-22eb-4815-a899-c74ef321b6ee");
-	assert(track.GetMedia() == "audio");
+	assert(SWIGTYPE_p_TrackInfo.getCPtr(track).getMedia() == "audio");
 }
 
 
