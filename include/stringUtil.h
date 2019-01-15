@@ -3,10 +3,12 @@
 
 #include <string>
 #include <vector>
-
 #include <algorithm>
 
 #include <sstream>
+
+#include <string.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -188,7 +190,7 @@ namespace stringUtil
 		char temp[8];
 		for (int i = 0; i < len; ++i)
 		{
-			sprintf_s(temp, 6, "%.2x", (uint8_t)buf[i]);
+			snprintf(temp, 6, "%.2x", (uint8_t)buf[i]);
 			output.append(temp, 2);
 			output.append(token);
 		}

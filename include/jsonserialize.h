@@ -1,9 +1,10 @@
 #pragma once
 
-#include <nlohmann/json.hpp>
+#include "../json/include/nlohmann/json.hpp"
 
-using json = nlohmann::json;
-
+//using json = nlohmann::json;
+using namespace nlohmann;
+	  
 
 #define mem_def_(op, type, mem)				mem_def_##op(type, mem, #mem)
 #define mem_def(op, type, mem, name)		mem_def_##op(type, mem, name)

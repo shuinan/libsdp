@@ -1,3 +1,6 @@
 [submodule "libsdptransform"]
 	path = libsdptransform
 	url = https://github.com/shuinan/libsdptransform.git
+[submodule "json"]
+	path = json
+	url = https://github.com/nlohmann/json

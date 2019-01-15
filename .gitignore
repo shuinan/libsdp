@@ -1,2 +1,6 @@
 /deps/
 /build/
+/wrapper/
+!/wrapper/libsdp.i
+!/wrapper/Makefile
+!/wrapper/test.java

@@ -6,7 +6,7 @@
 
 #include "stringUtil.h"
 
-#include "RtcpFeedbackInfo.h"
+#include "rtcpfeedbackinfo.h"
 
 
 using namespace std;

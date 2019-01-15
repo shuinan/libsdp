@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "Setup.h"
+#include "setup.h"
 
 using namespace std;
 

@@ -515,7 +515,8 @@ namespace sdp {
 
 			MediaInfo mediaInfo(mid, media);
 
-			this->SetICE(&ICEInfo(omitemptyJson<string>(md, "iceUfrag"), omitemptyJson<string>(md, "icePwd")));
+			ICEInfo ii(omitemptyJson<string>(md, "iceUfrag"), omitemptyJson<string>(md, "icePwd"));
+			this->SetICE(&ii);
 			if (jsonExist(md, "candidates")) {
 				this->candidates_ = md["candidates"].get<vector<CandidateInfo> >();
 			}
