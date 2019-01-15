@@ -1,7 +1,7 @@
 // This example illustrates how C++ classes can be used from Java using SWIG.
 // The Java class gets mapped onto the C++ class and behaves as if it is a Java class.
 
-public class runme {
+public class test {
   static {
     try {
         System.loadLibrary("libsdp");
@@ -11,7 +11,7 @@ public class runme {
     }
   }
 
- String sdpstr = "v=1\r\n" 
+static String sdpstr = "v=1\r\n" 
 + "o=- 4327261771880257373 2 IN IP4 127.0.0.1\r\n"
 + "s=-\r\n"
 + "t=1 1\r\n"
@@ -119,45 +119,43 @@ public class runme {
 + "a=ssrc:1080772241 label:cf093ab0-0b28-4930-8fe1-7ca8d529be25\r\n";
 
   
-void Test_Parse() {
+static void Test_Parse() {
 	SDPInfo offer;
-	offer = offer.Parse(sdpstr);
+	assert(offer.Parse(sdpstr));
 
+	CandidateInfo candidate = offer.GetCandidates().get_impl(0);
+	assert(candidate.getIp() == "35.188.215.104");
 
-	CandidateInfo candidate = offer.GetCandidates()[0];
-	assert(candidate.ip == "35.188.215.104");
-
-	CodecInfo codecInfo = offer.GetMedia("audio").GetCodecForType(111);
-	assert(codecInfo.codec == "opus");
-
+	SWIGTYPE_p_CodecInfo codecInfo = offer.GetMedia("audio").GetCodecForType(111);
+	assert(codecInfo.GetCodec() == "opus");
+	
 	assert(offer.GetMedias().size() == 2);
 
 	DTLSInfo dtls = offer.GetDTLS();
-	assert(dtls.hash == "sha-256");
+	assert(dtls.getHash() == "sha-256");
 
 	StreamInfo stream = offer.GetStream("xIKmAwWv4ft4ULxNJGhkHzvPaCkc8EKo4SGj");
-	TrackInfo track = stream.GetTrack("7ea47500-22eb-4815-a899-c74ef321b6ee");
-	assert(track.media == "audio");
+	SWIGTYPE_p_TrackInfo track = stream.GetTrack("7ea47500-22eb-4815-a899-c74ef321b6ee");
+	assert(track.GetMedia() == "audio");
 }
 
 
-void Test_SDPTOString() {
-	SDPInfo si;
-	SDPInfo sdpInfo = si.Parse(sdpstr);
-	ASSERT_FALSE(sdpInfo == nullptr);
+static void Test_SDPTOString() {	
+	SDPInfo sdpInfo;
+	assert(sdpInfo.Parse(sdpstr));
 
 	String sdpString = sdpInfo.String();
 
-	SDPInfo sdpInfo2 = si.Parse(sdpString);
-	EXPECT_NE(sdpInfo2, nullptr);
+	SDPInfo sdpInfo2;
+	assert(sdpInfo2.Parse(sdpString));
 
-	assert(sdpInfo2.GetFirstStream().id == sdpInfo.GetFirstStream().id);
+	assert(sdpInfo2.GetFirstStream().getId() == sdpInfo.GetFirstStream().getId());
 
 	assert(sdpInfo2.GetMedias().size() == sdpInfo.GetMedias().size());
 
-	assert(sdpInfo2.GetICE().ufrag == sdpInfo.GetICE().ufrag);
+	assert(sdpInfo2.GetICE().getUfrag() == sdpInfo.GetICE().getUfrag());
 
-	assert(sdpInfo2.GetDTLS().hash == sdpInfo.GetDTLS().hash);
+	assert(sdpInfo2.GetDTLS().getHash() == sdpInfo.GetDTLS().getHash());
 }
 
 

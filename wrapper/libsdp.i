@@ -8,6 +8,8 @@ using namespace nlohmann;
 %}
 
 /* Let's just grab the original header file here */
+%include "std_string.i"
+%include "std_vector.i"
 %include "../include/jsonserialize.h"
 %include "../include/streaminfo.h"
 %include "../include/mediainfo.h"
@@ -15,4 +17,6 @@ using namespace nlohmann;
 %include "../include/sourceinfo.h"
 %include "../include/iceinfo.h"
 %include "../include/dtlsinfo.h"
+%include "../include/trackinfo.h"
+%include "../include/codecinfo.h"
 %include "../include/sdpinfo.h"
