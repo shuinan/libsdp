@@ -28,7 +28,7 @@ namespace sdp {
 			return params.find(key) != params.end();
 		}
 
-		const string& GetParam(const string& key) const {
+		string GetParam(const string& key) const {
 			auto it = params.find(key);
 			return it == params.end() ? "" : it->second;
 		}

@@ -11,7 +11,7 @@ namespace sdp {
 	static const DirectionWay SEND = 1;
 	static const DirectionWay RECV = 2;
 
-	static DirectionWay DirectionWay_ByValue(const string& d) {
+	inline DirectionWay DirectionWay_ByValue(const string& d) {
 		if (d == "recv")
 			return RECV;
 		else if (d == "send")
@@ -20,7 +20,7 @@ namespace sdp {
 			return 0;
 	}
 
-	static DirectionWay DirectionWay_Reverse(DirectionWay d) {
+	inline DirectionWay DirectionWay_Reverse(DirectionWay d) {
 		switch (d) {
 		case SEND:
 			return RECV;
@@ -31,7 +31,7 @@ namespace sdp {
 		}
 	}
 
-	string DirectionWay_String(DirectionWay d) {
+	inline string DirectionWay_String(DirectionWay d) {
 		switch (d) {
 		case SEND:
 			return "send";

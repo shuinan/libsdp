@@ -1,0 +1,3 @@
+[submodule "libsdptransform"]
+	path = libsdptransform
+	url = https://github.com/shuinan/libsdptransform.git

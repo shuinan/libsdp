@@ -16,15 +16,15 @@ using namespace std;
 namespace sdp {
 
 	struct  MediaInfo {
-		string				id;
-		string				mtype;			// "audio" | "video"
-		Direction			direction;
-		map<int, string>	extensions;    // Add rtp header extension support
-		map<int, CodecInfo>	codecs;        // key: pt   value:  codec info
+		string					id;
+		string					mtype;			// "audio" | "video"
+		Direction				direction;
+		map<int, string>		extensions;		// Add rtp header extension support
+		map<int, CodecInfo>		codecs;			// key: pt   value:  codec info
 		map<string, RIDInfo>	rids;
-		bool				simulcast;
-		SimulcastInfo*		simulcastInfo;
-		int					bitrate;
+		bool					simulcast;
+		SimulcastInfo*			simulcastInfo;
+		int						bitrate;
 
 
 		MediaInfo& operator=(const MediaInfo& other) {
