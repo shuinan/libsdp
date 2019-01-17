@@ -22,18 +22,19 @@
 using namespace std;
 
 namespace sdp {
+	typedef	 vector<CandidateInfo> CandidateInfos;
 	
 	class SDPInfo {
 		int						version_ = 1;
 		map<string, StreamInfo>	streams_;
 		vector<MediaInfo>		medias_;			// as we need to keep order
-		vector<CandidateInfo>	candidates_; 	// keep order
+		CandidateInfos	candidates_; 	// keep order
 		ICEInfo*				ice_ = nullptr;
 		DTLSInfo*				dtls_ = nullptr;
 
 	public:
 		SDPInfo();
-		SDPInfo(ICEInfo* ice, DTLSInfo* dtls, const vector<CandidateInfo>& candidates, const map<string, Capability>& capabilities);
+		SDPInfo(ICEInfo* ice, DTLSInfo* dtls, const CandidateInfos& candidates, const map<string, Capability>& capabilities);
 		SDPInfo& operator=(const SDPInfo& sdp);
 		SDPInfo(const SDPInfo& sdp);
 		~SDPInfo(void);
@@ -84,13 +85,13 @@ namespace sdp {
 			this->candidates_.push_back(candi);
 		}
 
-		void AddCandidates(const vector<CandidateInfo>& candidates) {
+		void AddCandidates(const CandidateInfos& candidates) {
 			for (auto& candidate : candidates) {
 				this->AddCandidate(candidate);
 			}
 		}
 
-		const vector<CandidateInfo>& GetCandidates() const {
+		const CandidateInfos& GetCandidates() const {
 			return this->candidates_;
 		}
 
@@ -123,7 +124,7 @@ namespace sdp {
 
 		StreamInfo* GetStreamByMediaID(const string& mid);
 
-		SDPInfo Answer(const ICEInfo* ice, const DTLSInfo* dtls, const vector<CandidateInfo>& candidates, const map<string, Capability>& medias);
+		SDPInfo Answer(const ICEInfo* ice, const DTLSInfo* dtls, const CandidateInfos& candidates, const map<string, Capability>& medias);
 		
 		string String() const;
 	

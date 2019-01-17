@@ -4,7 +4,8 @@
 public class test {
   static {
     try {
-        System.loadLibrary("libsdp");
+        System.load("/home/shangrong/tmp/libsdp/wrapper/libsdp.so");
+//		System.loadLibrary("libsdp");
     } catch (UnsatisfiedLinkError e) {
       System.err.println("Native code library failed to load. See the chapter on Dynamic Linking Problems in the SWIG Java documentation for help.\n" + e);
       System.exit(1);
@@ -118,46 +119,66 @@ static String sdpstr = "v=1\r\n"
 + "a=ssrc:1080772241 mslabel:xIKmAwWv4ft4ULxNJGhkHzvPaCkc8EKo4SGj\r\n"
 + "a=ssrc:1080772241 label:cf093ab0-0b28-4930-8fe1-7ca8d529be25\r\n";
 
+static CodecInfo toCodecInfoObj(SWIGTYPE_p_CodecInfo codecInfo)
+{
+	return new CodecInfo(SWIGTYPE_p_CodecInfo.getCPtr(codecInfo), false);
+}
+
+static void AssertExt(boolean b, String s) {
+	if (!b)
+	{
+		System.out.println( " error for: " + s );
+	}
+}
   
 static void Test_Parse() {
-	SDPInfo offer;
-	assert(offer.Parse(sdpstr));
+	SDPInfo offer = new SDPInfo();
+	AssertExt(offer.Parse(sdpstr), "sdp");
 
-	SWIGTYPE_p_CandidateInfo candidate = offer.GetCandidates().get(0);
-	assert(candidate.getIp() == "35.188.215.104");
 
-//	SWIGTYPE_p_
-	CodecInfo codecInfo = offer.GetMedia("audio").GetCodecForType(111);
-	assert(codecInfo.getCodec() == "opus");
+//	CandidateInfos candidatesObj = new CandidateInfos(SWIGTYPE_p_std__vectorT_sdp__CandidateInfo_t.getCPtr(offer.GetCandidates()), false);
+//	CandidateInfo canObj = new CandidateInfo(SWIGTYPE_p_CandidateInfo.getCPtr(candidatesObj.get(0)), false);
+//	AssertExt(canObj.getIp() == "35.188.215.104");
+
+
+//	CodecInfo codecInfo = toCodecInfoObj(offer.GetMedia("audio").GetCodecForType(111)); 
+//	AssertExt(codecInfo.getCodec() == "opus");
 	
-	//MediaInfos ms = offer.GetMedias();
-	assert(offer.GetMedias().size() == 2);
+
+//	MediaInfos medias = new MediaInfos(SWIGTYPE_p_std__vectorT_sdp__MediaInfo_t.getCPtr(offer.GetMedias()), false);
+//	AssertExt(medias.size() == 2);
 
 	DTLSInfo dtls = offer.GetDTLS();
-	assert(dtls.getHash() == "sha-256");
+	AssertExt(dtls.getHash() == "sha-256", "dtls hash");
 
 	StreamInfo stream = offer.GetStream("xIKmAwWv4ft4ULxNJGhkHzvPaCkc8EKo4SGj");
-	SWIGTYPE_p_TrackInfo track = stream.GetTrack("7ea47500-22eb-4815-a899-c74ef321b6ee");
-	assert(SWIGTYPE_p_TrackInfo.getCPtr(track).getMedia() == "audio");
+	AssertExt(stream != null, "stream");
+	System.out.println( "    stream: " +  stream);
+	SWIGTYPE_p_TrackInfo trackPtr = stream.GetTrack("7ea47500-22eb-4815-a899-c74ef321b6ee");
+	System.out.println( "    track: " +  SWIGTYPE_p_TrackInfo.getCPtr(trackPtr));
+	TrackInfo track = new TrackInfo(SWIGTYPE_p_TrackInfo.getCPtr(trackPtr), false);
+	AssertExt(track.getMedia() == "audio", "audio");
 }
 
 
 static void Test_SDPTOString() {	
-	SDPInfo sdpInfo;
-	assert(sdpInfo.Parse(sdpstr));
+	SDPInfo sdpInfo = new SDPInfo();
+	AssertExt(sdpInfo.Parse(sdpstr), "sdp");
 
 	String sdpString = sdpInfo.String();
 
-	SDPInfo sdpInfo2;
-	assert(sdpInfo2.Parse(sdpString));
+	SDPInfo sdpInfo2 = new SDPInfo();
+	AssertExt(sdpInfo2.Parse(sdpString), "sdp2");
 
-	assert(sdpInfo2.GetFirstStream().getId() == sdpInfo.GetFirstStream().getId());
+	AssertExt(sdpInfo2.GetFirstStream().getId() == sdpInfo.GetFirstStream().getId(), "first stream");
 
-	assert(sdpInfo2.GetMedias().size() == sdpInfo.GetMedias().size());
+	MediaInfos medias = new MediaInfos(SWIGTYPE_p_std__vectorT_sdp__MediaInfo_t.getCPtr(sdpInfo.GetMedias()), false);
+	MediaInfos medias2 = new MediaInfos(SWIGTYPE_p_std__vectorT_sdp__MediaInfo_t.getCPtr(sdpInfo2.GetMedias()), false);
+//	AssertExt(medias2.size() == medias.size());
 
-	assert(sdpInfo2.GetICE().getUfrag() == sdpInfo.GetICE().getUfrag());
+	AssertExt(sdpInfo2.GetICE().getUfrag() == sdpInfo.GetICE().getUfrag(), "ufrag");
 
-	assert(sdpInfo2.GetDTLS().getHash() == sdpInfo.GetDTLS().getHash());
+	AssertExt(sdpInfo2.GetDTLS().getHash() == sdpInfo.GetDTLS().getHash(), "hash");
 }
 
 
