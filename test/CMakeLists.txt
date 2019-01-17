@@ -3,8 +3,9 @@ include_directories(include)
 
 set(
 	SOURCE_FILES
-	tests.cpp
-	parse.test.cpp
+#	tests.cpp
+#	parse.test.cpp
+	TestSdp.cpp
 )
 
 set(
@@ -13,6 +14,6 @@ set(
 	include/catch.hpp
 )
 
-add_executable(test_sdptransform ${SOURCE_FILES} ${HEADER_FILES})
+add_executable(test_sdp${SOURCE_FILES} ${HEADER_FILES})
 
-target_link_libraries(test_sdptransform sdptransform)
+target_link_libraries(test_sdp sdp)

@@ -136,28 +136,28 @@ static void Test_Parse() {
 	AssertExt(offer.Parse(sdpstr), "sdp");
 
 
-//	CandidateInfos candidatesObj = new CandidateInfos(SWIGTYPE_p_std__vectorT_sdp__CandidateInfo_t.getCPtr(offer.GetCandidates()), false);
-//	CandidateInfo canObj = new CandidateInfo(SWIGTYPE_p_CandidateInfo.getCPtr(candidatesObj.get(0)), false);
-//	AssertExt(canObj.getIp() == "35.188.215.104");
+	CandidateInfos candidatesObj = new CandidateInfos(SWIGTYPE_p_std__vectorT_sdp__CandidateInfo_t.getCPtr(offer.GetCandidates()), false);
+	CandidateInfo canObj = new CandidateInfo(SWIGTYPE_p_CandidateInfo.getCPtr(candidatesObj.get(0)), false);
+	AssertExt(canObj.getIp().equals("35.188.215.104"), "candidate's ip is error");
 
 
-//	CodecInfo codecInfo = toCodecInfoObj(offer.GetMedia("audio").GetCodecForType(111)); 
-//	AssertExt(codecInfo.getCodec() == "opus");
+	CodecInfo codecInfo = toCodecInfoObj(offer.GetMedia("audio").GetCodecForType(111)); 
+	AssertExt(codecInfo.getCodec().equals("opus"), "codec is not opus");
 	
 
-//	MediaInfos medias = new MediaInfos(SWIGTYPE_p_std__vectorT_sdp__MediaInfo_t.getCPtr(offer.GetMedias()), false);
-//	AssertExt(medias.size() == 2);
+	MediaInfos medias = new MediaInfos(SWIGTYPE_p_std__vectorT_sdp__MediaInfo_t.getCPtr(offer.GetMedias()), false);
+	AssertExt(medias.size() == 2, "medias size is not 2");
 
 	DTLSInfo dtls = offer.GetDTLS();
-	AssertExt(dtls.getHash() == "sha-256", "dtls hash");
-
+	AssertExt(dtls.getHash().equals("sha-256"), dtls.getHash());
+	System.out.println( "    dtls hash: " +  dtls.getHash());
 	StreamInfo stream = offer.GetStream("xIKmAwWv4ft4ULxNJGhkHzvPaCkc8EKo4SGj");
-	AssertExt(stream != null, "stream");
-	System.out.println( "    stream: " +  stream);
+	AssertExt(stream != null, "stream is null");
+	System.out.println( "    stream id: " +  stream.getId());
 	SWIGTYPE_p_TrackInfo trackPtr = stream.GetTrack("7ea47500-22eb-4815-a899-c74ef321b6ee");
 	System.out.println( "    track: " +  SWIGTYPE_p_TrackInfo.getCPtr(trackPtr));
 	TrackInfo track = new TrackInfo(SWIGTYPE_p_TrackInfo.getCPtr(trackPtr), false);
-	AssertExt(track.getMedia() == "audio", "audio");
+	AssertExt(track.getMedia().equals("audio"), "audio");
 }
 
 
@@ -170,15 +170,15 @@ static void Test_SDPTOString() {
 	SDPInfo sdpInfo2 = new SDPInfo();
 	AssertExt(sdpInfo2.Parse(sdpString), "sdp2");
 
-	AssertExt(sdpInfo2.GetFirstStream().getId() == sdpInfo.GetFirstStream().getId(), "first stream");
+	AssertExt(sdpInfo2.GetFirstStream().getId().equals(sdpInfo.GetFirstStream().getId()), "first stream id is diff");
 
 	MediaInfos medias = new MediaInfos(SWIGTYPE_p_std__vectorT_sdp__MediaInfo_t.getCPtr(sdpInfo.GetMedias()), false);
 	MediaInfos medias2 = new MediaInfos(SWIGTYPE_p_std__vectorT_sdp__MediaInfo_t.getCPtr(sdpInfo2.GetMedias()), false);
 //	AssertExt(medias2.size() == medias.size());
 
-	AssertExt(sdpInfo2.GetICE().getUfrag() == sdpInfo.GetICE().getUfrag(), "ufrag");
+	AssertExt(sdpInfo2.GetICE().getUfrag().equals(sdpInfo.GetICE().getUfrag()), "ufrag");
 
-	AssertExt(sdpInfo2.GetDTLS().getHash() == sdpInfo.GetDTLS().getHash(), "hash");
+	AssertExt(sdpInfo2.GetDTLS().getHash().equals(sdpInfo.GetDTLS().getHash()), "hash");
 }
 
 
