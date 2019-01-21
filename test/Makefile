@@ -1,4 +1,4 @@
-CXXSRCS    = main.cpp ../src/sdpinfo.cpp ../libsdptransform/src/grammar.cpp ../libsdptransform/src/parser.cpp ../libsdptransform/src/writer.cpp
+CXXSRCS    = main.cpp ../src/sdpinfo.cpp TestSdp.cpp ../libsdptransform/src/grammar.cpp ../libsdptransform/src/parser.cpp ../libsdptransform/src/writer.cpp
 TARGET     = testsdp
 
 

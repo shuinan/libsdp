@@ -1,11 +1,10 @@
+#include "gtest/gtest.h"
 
 #include <string>
 
-#include "gtest/gtest.h"
-
-
 #define USE_JSON_TRANSFORM
 #include "../include/sdpinfo.h"
+
 
 using namespace std;
 using namespace sdp;
